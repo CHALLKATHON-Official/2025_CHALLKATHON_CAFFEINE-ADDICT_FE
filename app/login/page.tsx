@@ -8,31 +8,54 @@ const kakaoLoginUrl = `${apiBaseUrl}/oauth2/authorization/kakao`;
 
 export default function Login() {
 	const [nickname, setNickname] = useState<string | null>(null);
+	const [checkedAuth, setCheckedAuth] = useState(false);
 
 	useEffect(() => {
-		const name = localStorage.getItem('nickname');
-		if (name) setNickname(name);
+		const checkAuth = async () => {
+			try {
+				const res = await fetch(`${apiBaseUrl}/api/user/me`, {
+					method: 'GET',
+					credentials: 'include',
+				});
+
+				if (!res.ok) throw new Error('인증 실패');
+
+				const data = await res.json();
+				localStorage.setItem('nickname', data.nickname);
+				setNickname(data.nickname);
+				alert('카카오로그인 성공');
+			} catch (err) {
+				// alert('카카오로그인 실패');
+			} finally {
+				setCheckedAuth(true);
+			}
+		};
+
+		checkAuth();
 	}, []);
 
 	const handleKakaoLogin = () => {
 		window.location.href = kakaoLoginUrl;
-		console.log('uri는:', kakaoLoginUrl);
 	};
 
 	return (
-		<Box sx={{
-			width: '100%',
-			display: 'flex',
-			flexDirection: 'column',
-			alignItems: 'center',
-			justifyContent: 'center',
-			gap: '1rem'
-		}}>
+		<Box
+			sx={{
+				width: '100%',
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
+				justifyContent: 'center',
+				gap: '1rem',
+			}}
+		>
 			<Typography>모멘토 카카오로그인 간단 테스트 중</Typography>
-			{nickname ? (
+			{checkedAuth && nickname ? (
 				<Typography>안녕하세요, {nickname}님!</Typography>
 			) : (
-				<Button variant='contained' onClick={handleKakaoLogin}>카카오 로그인</Button>
+				<Button variant="contained" onClick={handleKakaoLogin}>
+					카카오 로그인
+				</Button>
 			)}
 		</Box>
 	);

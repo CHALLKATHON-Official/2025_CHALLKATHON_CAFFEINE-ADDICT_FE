@@ -4,6 +4,10 @@ import Story from './home_components/Story';
 import ProgressBar from './home_components/Progress';
 import TodoList from './home_components/TodoList';
 import DailyQuestion from './home_components/DailyQuestion';
+import PetalField from './home_components/PetalField';
+
+import BeforeNotice from './home_components/before_included_components/BeforeNotice';
+import InviteCode from './home_components/before_included_components/InviteCode';
 
 // 모멘토 홈화면
 export default function Home() {
@@ -22,6 +26,11 @@ export default function Home() {
       backgroundPosition: 'center',
       padding: '3rem 0 4rem 0'
     }}>
+      {/* 첫 회원가입해서 아직 가족이 없는 경우 */}
+      {/* <BeforeNotice />
+      <InviteCode /> */}
+
+      {/* 가족이 있는 경우 */}
       <Box sx={{
         width: '100%',
         display: 'flex',
@@ -35,6 +44,8 @@ export default function Home() {
         <TodoList />
       </Box>
       <DailyQuestion />
+
+      <PetalField />
     </Box>
   );
 }
