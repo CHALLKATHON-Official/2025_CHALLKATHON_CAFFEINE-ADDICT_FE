@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import React from "react";
 import Layout from "./components/Layout";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
   title: "모멘토",
@@ -17,9 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Layout>
           {children}
         </Layout>
-        {/* <footer>
-          <p>footer입니다.</p>
-        </footer> */}
+        <Footer />
       </body>
     </html>
   );

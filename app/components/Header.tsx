@@ -21,10 +21,19 @@ export default function Header() {
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'space-between',
-			backgroundColor: '#D9D9D9'
+			backgroundColor: 'transparent'
 		}}>
-			<Typography>모멘토</Typography>
-			<Button onClick={() => { router.push('/login') }}>로그인</Button>
+			<Box
+				sx={{
+					width: '5.3rem',
+					height: '1.2rem',
+					backgroundImage: `url(/img/modium_logo.svg)`,
+					backgroundSize: 'cover',
+					backgroundRepeat: 'no-repeat',
+					backgroundPosition: 'center',
+				}}
+			/>
+			<Button onClick={() => { router.push('/login') }} sx={{ color: 'black' }}>로그인</Button>
 		</Box>
 	);
 }

@@ -3,9 +3,8 @@
 import { Box, Button, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID!;
-const REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI!;
-const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
+const apiBaseUrl = process.env.NEXT_PUBLIC_SERVER_URI;
+const kakaoLoginUrl = `${apiBaseUrl}/oauth2/authorization/kakao`;
 
 export default function Login() {
 	const [nickname, setNickname] = useState<string | null>(null);
@@ -16,7 +15,8 @@ export default function Login() {
 	}, []);
 
 	const handleKakaoLogin = () => {
-		window.location.href = kakaoAuthUrl;
+		window.location.href = kakaoLoginUrl;
+		console.log('uri는:', kakaoLoginUrl);
 	};
 
 	return (
