@@ -1,16 +1,45 @@
 'use client';
 import * as React from 'react';
-import dayjs from 'dayjs';
-
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import { DateCalendar, PickersDay, PickersDayProps } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { Box, Typography } from '@mui/material';
+import { useRouter } from 'next/navigation';
+
+// 서버에서 받아올 예약이 있는 날짜 mockData (일단 일만 일치하면 이미지 표시하도록 처리)
+const hasEventDay = [1, 2, 5, 7];
+
+function CustomPickersDay(props: PickersDayProps) {
+	const { day, ...other } = props;
+	const isEvent = hasEventDay.includes(day.date());
+
+	return (
+		<Box sx={{ position: 'relative' }}>
+			<PickersDay day={day} {...other} />
+			<Box
+				sx={{
+					position: 'absolute',
+					bottom: 2,
+					left: '50%',
+					transform: 'translateX(-50%)',
+					width: 16,
+					height: 16,
+					backgroundImage: `url(${isEvent ? '/img/small_icon_son.svg' : '/img/small_icon_daghter.svg'
+						})`,
+					backgroundSize: 'contain',
+					backgroundRepeat: 'no-repeat',
+				}}
+			/>
+		</Box>
+	);
+}
 
 export default function Explore() {
+	const router = useRouter();
 	const today = dayjs();
 	const year = today.year();
-	const month = today.month() + 1; // 0부터 시작하므로 +1
+	const month = today.month() + 1; // 0부터 시작하므로
 	const date = today.date();
 
 	return (
@@ -45,10 +74,15 @@ export default function Explore() {
 			<LocalizationProvider dateAdapter={AdapterDayjs}>
 				<DateCalendar
 					defaultValue={today}
-					showDaysOutsideCurrentMonth // 해당 월 외 날짜도 회색으로 표시
-					displayWeekNumber // 주차 표시
+					showDaysOutsideCurrentMonth
+					displayWeekNumber
 					onChange={(newValue) => {
-						console.log('선택한 날짜:', newValue?.format('YYYY-MM-DD'));
+						if (newValue) {
+							router.push(`/futureevent?date=${newValue.format('YYYY-MM-DD')}`);
+						}
+					}}
+					slots={{
+						day: CustomPickersDay,
 					}}
 					sx={{ width: '100%', backgroundColor: 'white', padding: '0.5rem' }}
 				/>
