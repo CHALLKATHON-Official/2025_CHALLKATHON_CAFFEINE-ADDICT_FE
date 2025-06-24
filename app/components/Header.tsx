@@ -23,7 +23,8 @@ export default function Header() {
 			justifyContent: 'space-between',
 			backgroundColor: 'transparent'
 		}}>
-			<Box
+			<Button
+				onClick={() => { router.push('/') }}
 				sx={{
 					width: '5.3rem',
 					height: '1.2rem',

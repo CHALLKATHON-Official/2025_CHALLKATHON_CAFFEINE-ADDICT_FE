@@ -10,29 +10,39 @@ export default function Login() {
 	const [nickname, setNickname] = useState<string | null>(null);
 	const [checkedAuth, setCheckedAuth] = useState(false);
 
+	// 카카오 로그인 성공 후 쿼리 파라미터 확인
 	useEffect(() => {
-		const checkAuth = async () => {
-			try {
-				const res = await fetch(`${apiBaseUrl}/api/user/me`, {
-					method: 'GET',
-					credentials: 'include',
-				});
+		const urlParams = new URLSearchParams(window.location.search);
+		const oauthResult = urlParams.get('oauth');
 
-				if (!res.ok) throw new Error('인증 실패');
-
-				const data = await res.json();
-				localStorage.setItem('nickname', data.nickname);
-				setNickname(data.nickname);
-				alert('카카오로그인 성공');
-			} catch (err) {
-				// alert('카카오로그인 실패');
-			} finally {
-				setCheckedAuth(true);
-			}
-		};
-
-		checkAuth();
+		if (oauthResult === 'success') {
+			alert('카카오 로그인 성공!');
+			checkAuth();
+		}
 	}, []);
+
+	// 카카오로그인 됐으면 정보 저장
+	const checkAuth = async () => {
+		try {
+			const res = await fetch(`${apiBaseUrl}/api/user/me`, {
+				method: 'GET',
+				credentials: 'include',
+			});
+
+			if (!res.ok) {
+				console.log('인증 실패: 응답이 실패 상태입니다');
+				throw new Error('인증 실패');
+			}
+
+			const data = await res.json();
+			localStorage.setItem('nickname', data.nickname);
+			setNickname(data.nickname);
+		} catch (err) {
+			console.error('인증 에러:', err);
+		} finally {
+			setCheckedAuth(true);
+		}
+	};
 
 	const handleKakaoLogin = () => {
 		window.location.href = kakaoLoginUrl;
