@@ -28,9 +28,9 @@ export default function Story() {
 	};
 
 	// 클릭 시 넘어가는 화면에 이미지 전달하여 띄우도록 한다 
-	const handleClick = (hasStory: any, imageUrl: string) => {
+	const handleClick = (hasStory: any, imageUrl: string, role: string) => {
 		if (hasStory) {
-			router.push(`/story?imageUrl=${encodeURIComponent(imageUrl)}`);
+			router.push(`/story?imageUrl=${encodeURIComponent(imageUrl)}&roll=${role}`);
 		}
 		else {
 			return null;
@@ -57,7 +57,7 @@ export default function Story() {
 					sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}
 				>
 					<Button
-						onClick={() => handleClick(member.hasStory, member.imageUrl)}
+						onClick={() => handleClick(member.hasStory, member.imageUrl, member.role)}
 						sx={{
 							width: '4rem',
 							height: '4rem',

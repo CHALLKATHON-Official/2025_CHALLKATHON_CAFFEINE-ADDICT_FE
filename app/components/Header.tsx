@@ -7,7 +7,7 @@ export default function Header() {
 	const router = useRouter();
 	const pathname = usePathname();
 
-	const hideOnRoutes = ['/login', '/signup'];
+	const hideOnRoutes = ['/login', '/signup', '/story'];
 	const shouldHide = hideOnRoutes.includes(pathname);
 
 	if (shouldHide) return null;
