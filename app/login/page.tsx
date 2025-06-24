@@ -45,7 +45,10 @@ export default function Login() {
 	};
 
 	const handleKakaoLogin = () => {
-		window.location.href = kakaoLoginUrl;
+		// window.location.href = kakaoLoginUrl;
+		setTimeout(() => {
+			window.location.href = `${apiBaseUrl}/oauth2/authorization/kakao`;
+		}, 300);
 	};
 
 	return (

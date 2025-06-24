@@ -1,8 +1,10 @@
 'use client';
 import { Box, Typography, Button, Checkbox } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
 // 홈화면 상단 TODO list 컴포넌트 
 export default function TodoList() {
+	const router = useRouter();
 	const month = 6;
 	const todolist = [
 		'해외여행에서 호캉스 즐기기',
@@ -38,7 +40,9 @@ export default function TodoList() {
 					backgroundColor: '#DBD9CA',
 					color: '#6E4C36',
 					padding: '0 1rem'
-				}}>
+				}}
+					onClick={() => { router.push('/todohistory') }}
+				>
 					내역 보기
 				</Button>
 			</Box>

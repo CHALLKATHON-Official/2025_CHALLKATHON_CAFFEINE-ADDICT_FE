@@ -1,8 +1,10 @@
 'use client';
 import { Box, Typography, Button } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
 // 홈화면 하단 데일리 질문 컴포넌트
 export default function DailyQuestion() {
+	const router = useRouter();
 	const question = '나의 엄마는 어떤 사람이었나요?';
 
 	return (
@@ -21,6 +23,7 @@ export default function DailyQuestion() {
 				backgroundRepeat: 'no-repeat',
 				backgroundPosition: 'center',
 			}}
+			onClick={() => { router.push('/dailyquestion'); }}
 		>
 			<Typography>{question}</Typography>
 		</Button>

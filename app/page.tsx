@@ -11,6 +11,7 @@ import InviteCode from './home_components/before_included_components/InviteCode'
 
 // 모멘토 홈화면
 export default function Home() {
+  const noFamily = false;
 
   return (
     <Box sx={{
@@ -27,25 +28,36 @@ export default function Home() {
       padding: '3rem 0 4rem 0'
     }}>
       {/* 첫 회원가입해서 아직 가족이 없는 경우 */}
-      {/* <BeforeNotice />
-      <InviteCode /> */}
+      {
+        noFamily && (
+          <>
+            <BeforeNotice />
+            <InviteCode />
+          </>
+        )
+      }
 
       {/* 가족이 있는 경우 */}
-      <Box sx={{
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '1rem',
-      }}>
-        <Story />
-        <ProgressBar />
-        <TodoList />
-      </Box>
-      <DailyQuestion />
+      {!noFamily && (
+        <>
+          <Box sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '1rem',
+          }}>
+            <Story />
+            <ProgressBar />
+            <TodoList />
+          </Box>
+          <DailyQuestion />
 
-      <PetalField />
+          <PetalField />
+        </>
+      )
+      }
     </Box>
   );
 }

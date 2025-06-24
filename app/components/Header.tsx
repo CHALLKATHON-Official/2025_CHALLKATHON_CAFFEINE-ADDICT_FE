@@ -32,6 +32,7 @@ export default function Header() {
 					backgroundSize: 'cover',
 					backgroundRepeat: 'no-repeat',
 					backgroundPosition: 'center',
+					padding: '0.5rem',
 				}}
 			/>
 			<Button onClick={() => { router.push('/login') }} sx={{ color: 'black' }}>로그인</Button>
