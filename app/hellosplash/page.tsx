@@ -12,10 +12,10 @@ export default function HelloSplash() {
 	// 카카오 로그인 성공 후 쿼리 파라미터 확인
 	useEffect(() => {
 		const urlParams = new URLSearchParams(window.location.search);
-		const oauthResult = urlParams.get('oauth');
+		const oauthResult = urlParams.get('loginSuccess');
 
-		if (oauthResult === 'success') {
-			alert('카카오 로그인 성공!');
+		if (oauthResult === 'true') {
+			console.log('카카오로그인 성공!!');
 			checkAuth();
 		}
 	}, []);
@@ -23,6 +23,7 @@ export default function HelloSplash() {
 	// 카카오로그인 됐으면 정보 저장
 	const checkAuth = async () => {
 		try {
+			console.log('진입!!!!');
 			const res = await fetch(`${apiBaseUrl}/api/user/me`, {
 				method: 'GET',
 				credentials: 'include',
@@ -34,6 +35,7 @@ export default function HelloSplash() {
 			}
 
 			const data = await res.json();
+			console.log('data는??:', data);
 			localStorage.setItem('nickname', data.nickname);
 			setNickname(data.nickname);
 		} catch (err) {
