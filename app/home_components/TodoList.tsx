@@ -1,6 +1,8 @@
 'use client';
 import { Box, Typography, Button, Checkbox } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import Splash_after_makeTodo from './Splash_after_makeTodo';
+import Splash_before_makeTodo from './Splash_before_makeTodo';
 
 // 홈화면 상단 TODO list 컴포넌트 
 export default function TodoList() {

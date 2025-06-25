@@ -1,22 +1,36 @@
 'use client';
-import * as React from 'react';
+// import * as React from 'react';
+import { useState } from 'react';
 import { DateCalendar, PickersDay, PickersDayProps } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { Box, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import ExploreModal from './components/ExploreModal';
+
+// 경우의 수 정리
+// 현재보다 과거인데 예약내역이 없는 날짜 -> 클릭해도 반응 없어야 함
+// 현재보다 과거 또는 현재와 일치하는데 예약 내역이 있는 날짜 -> 클릭하면 /futuremessage로 이동해야 함
+// 현재보다 미래인 날짜 -> 클릭하면 handleClick으로 setOpen(true) 가 되어야 함 
 
 // 서버에서 받아올 예약이 있는 날짜 mockData (일단 일만 일치하면 이미지 표시하도록 처리)
-const hasEventDay = [1, 2, 5, 7];
+const hasEventDay = [1, 2, 5, 7, 24, 26, 28, 29];
 
 function CustomPickersDay(props: PickersDayProps) {
-	const { day, ...other } = props;
+	const { day, onClick, ...other } = props;
 	const isEvent = hasEventDay.includes(day.date());
+	const [open, setOpen] = useState(false); // 각 날짜 클릭 시 모달 open 상태 제어 
+
+	const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+		// console.log('클릭!');
+		setOpen(true);
+		// if (onClick) onClick(e); // 기존 onClick도 호출 (DateCalendar의 onChange 위해 필요)
+	};
 
 	return (
 		<Box sx={{ position: 'relative' }}>
-			<PickersDay day={day} {...other} />
+			<PickersDay day={day} {...other} onClick={handleClick} />
 			<Box
 				sx={{
 					position: 'absolute',
@@ -31,6 +45,7 @@ function CustomPickersDay(props: PickersDayProps) {
 					backgroundRepeat: 'no-repeat',
 				}}
 			/>
+			{open && <ExploreModal open={open} setOpen={setOpen} />}
 		</Box>
 	);
 }
@@ -76,11 +91,11 @@ export default function Explore() {
 					defaultValue={today}
 					showDaysOutsideCurrentMonth
 					displayWeekNumber
-					onChange={(newValue) => {
-						if (newValue) {
-							router.push(`/futureevent?date=${newValue.format('YYYY-MM-DD')}`);
-						}
-					}}
+					// onChange={(newValue) => {
+					// 	if (newValue) {
+					// 		router.push(`/futureevent?date=${newValue.format('YYYY-MM-DD')}`);
+					// 	}
+					// }}
 					slots={{
 						day: CustomPickersDay,
 					}}

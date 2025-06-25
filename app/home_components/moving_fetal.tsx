@@ -14,15 +14,15 @@ export default function MovingPetal({
 		<Box
 			sx={{
 				position: 'absolute',
-				width: '15px',
-				height: '15px',
+				width: '12px',
+				height: '12px',
 				top: `${top}%`,
 				left: `${left}%`,
 				backgroundImage: `url(/img/petal_img.svg)`,
 				backgroundSize: 'cover',
 				backgroundRepeat: 'no-repeat',
 				backgroundPosition: 'center',
-				animation: `sway 3s ease-in-out infinite`,
+				animation: `sway 6s ease-in-out infinite`,
 				animationDelay: `${delay}s`,
 				'@keyframes sway': {
 					'0%': { transform: 'translateY(0px) rotate(0deg)' },

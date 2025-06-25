@@ -6,7 +6,7 @@ export default function PetalField() {
 	const petals = Array.from({ length: 15 }, (_, i) => ({
 		id: i,
 		top: Math.random() * 100,
-		left: Math.random() * 100,
+		left: Math.random() * 90,
 		delay: Math.random() * 3,
 	}));
 
@@ -14,11 +14,11 @@ export default function PetalField() {
 		<Box
 			sx={{
 				position: 'fixed',
-				top: '70%',
+				top: '60%',
 				left: '50%',
 				transform: 'translate(-50%, -50%)',
 				width: '400px',
-				height: '200px',
+				height: '150px',
 				pointerEvents: 'none', // 클릭 방해 방지
 				zIndex: 10,
 			}}

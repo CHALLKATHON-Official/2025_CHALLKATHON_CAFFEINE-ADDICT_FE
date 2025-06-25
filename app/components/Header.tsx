@@ -1,10 +1,15 @@
 'use client';
 
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
 export default function Header() {
 	const router = useRouter();
+
+	const handleLogout = () => {
+		localStorage.removeItem('accessToken');
+		router.replace('/hellosplash');
+	};
 
 	return (
 		<Box sx={{
@@ -29,7 +34,9 @@ export default function Header() {
 					padding: '0.5rem',
 				}}
 			/>
-			<Button onClick={() => { router.push('/login') }} sx={{ color: 'black' }}>로그인</Button>
+			<Button sx={{ color: 'grey', fontSize: '0.8rem' }} onClick={handleLogout}>
+				LOGOUT
+			</Button>
 		</Box>
 	);
 }
