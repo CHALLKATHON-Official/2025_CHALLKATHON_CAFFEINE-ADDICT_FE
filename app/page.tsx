@@ -6,6 +6,7 @@ import Story from './home_components/Story';
 import TodoList from './home_components/TodoList';
 import DailyQuestion from './home_components/DailyQuestion';
 import PetalField from './home_components/PetalField';
+import Loading from './components/Loading';
 
 import BeforeNotice from './home_components/before_included_components/BeforeNotice';
 import InviteCode from './home_components/before_included_components/InviteCode';
@@ -50,18 +51,19 @@ export default function Home() {
   }, [router]);
 
   if (isLoading) {
-    return (
-      <Box sx={{
-        width: '100%',
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'white',
-      }}>
-        <Typography variant="h6" color="text.secondary">로딩 중입니다...</Typography>
-      </Box>
-    );
+    // return (
+    //   <Box sx={{
+    //     width: '100%',
+    //     minHeight: '100vh',
+    //     display: 'flex',
+    //     alignItems: 'center',
+    //     justifyContent: 'center',
+    //     backgroundColor: 'white',
+    //   }}>
+    //     <Typography variant="h6" color="text.secondary">로딩 중입니다...</Typography>
+    //   </Box>
+    // );
+    return <Loading />
   }
 
 
