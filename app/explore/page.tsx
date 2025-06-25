@@ -24,6 +24,7 @@ function CustomPickersDay(props: PickersDayProps) {
 
 	const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 		// console.log('클릭!');
+
 		setOpen(true);
 		// if (onClick) onClick(e); // 기존 onClick도 호출 (DateCalendar의 onChange 위해 필요)
 	};
@@ -37,9 +38,9 @@ function CustomPickersDay(props: PickersDayProps) {
 					bottom: 2,
 					left: '50%',
 					transform: 'translateX(-50%)',
-					width: 16,
-					height: 16,
-					backgroundImage: `url(${isEvent ? '/img/small_icon_son.svg' : '/img/small_icon_daghter.svg'
+					width: 20,
+					height: 20,
+					backgroundImage: `url(${isEvent ? '/img/small_icon_present.svg' : '/img/small_icon_empty.svg'
 						})`,
 					backgroundSize: 'contain',
 					backgroundRepeat: 'no-repeat',

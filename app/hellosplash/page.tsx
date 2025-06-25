@@ -7,15 +7,32 @@ export default function HelloSplash() {
 	const apiBaseUrl = process.env.NEXT_PUBLIC_SERVER_URI;
 	const kakaoLoginUrl = `${apiBaseUrl}/oauth2/authorization/kakao`;
 
+	// useEffect(() => {
+	// 	const urlParams = new URLSearchParams(window.location.search);
+	// 	const token = urlParams.get('token');
+	// 	console.log('token:', token);
+
+	// 	if (token) {
+	// 		localStorage.setItem('accessToken', token);
+	// 		console.log('data:', token);
+	// 		fetchUserData();
+	// 	};
+
+
+	// }, []);
 	useEffect(() => {
-		const urlParams = new URLSearchParams(window.location.search);
-		const token = urlParams.get('accessToken');
+		if (typeof window !== 'undefined') {
+			const url = new URL(window.location.href);
+			console.log('url:', url);
+			const token = url.searchParams.get('token');
 
-		if (token) {
-			localStorage.setItem('accessToken', token);
-		};
-		fetchUserData();
+			if (token) {
+				localStorage.setItem('accessToken', token);
+				console.log('토큰 저장됨:', token);
 
+				fetchUserData();
+			}
+		}
 	}, []);
 
 	const handleKakaoLogin = () => {
