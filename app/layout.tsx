@@ -27,6 +27,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </Layout>
         {!shouldHide && <Footer />}
+
+        {/* react portal 쓰기위한 설정이다 */}
+        <div id="modal-root" />
       </body>
     </html>
   );

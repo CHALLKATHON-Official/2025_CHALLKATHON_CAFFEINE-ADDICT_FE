@@ -1,6 +1,7 @@
 'use client';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useRef, useState } from 'react';
+import CertModal from './CertModal';
 
 export default function Certificate() {
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -17,6 +18,9 @@ export default function Certificate() {
 			setImageUrl(url);
 		}
 	};
+
+	// 모달 상태관리 변수 함수 
+	const [open, setOpen] = useState(false);
 
 	return (
 		<Box sx={{
@@ -36,6 +40,19 @@ export default function Certificate() {
 				flexDirection: 'column',
 				gap: '0',
 			}}>
+				<Box sx={{
+					width: '100%',
+					height: '5rem',
+					backgroundImage: `url(/img/certificate_top.svg)`,
+					backgroundSize: 'cover',
+					backgroundRepeat: 'no-repeat',
+					backgroundPosition: 'center',
+					border: '1px solid #6E4C36',
+					borderRadius: '1rem 1rem 0 0',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+				}} />
 				<Button
 					onClick={handleImageClick}
 					sx={{
@@ -126,10 +143,13 @@ export default function Certificate() {
 					backgroundColor: '#DBD9CA',
 					color: '#462B18',
 					boxShadow: '0 0 10px rgba(0, 0, 0, 0.08);'
-				}}>
+				}}
+					onClick={() => setOpen(true)}
+				>
 					저장
 				</Button>
 			</Box>
+			{open && <CertModal open={open} setOpen={setOpen} />}
 		</Box>
 	);
 }
