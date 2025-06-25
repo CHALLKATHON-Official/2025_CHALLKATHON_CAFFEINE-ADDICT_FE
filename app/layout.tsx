@@ -15,12 +15,12 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
 	return (
 		<html lang="ko">
-			<Head>
+			{/* <Head>
 				<link
-					href="https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.eot"
+					href="https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.eot?#iefix"
 					rel="stylesheet"
 				/>
-			</Head>
+			</Head> */}
 			<body>
 				<LayoutClient>{children}</LayoutClient>
 				<div id="modal-root" />

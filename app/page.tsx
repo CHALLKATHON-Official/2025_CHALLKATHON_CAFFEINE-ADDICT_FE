@@ -34,11 +34,11 @@ export default function Home() {
     const token = localStorage.getItem('accessToken');
 
     // 유저의 로그인 정보가 없을 경우 로그인 화면으로 안내
-    if (!token) {
-      console.log('로그인 정보 없음');
-      router.replace('/hellosplash');
-      return;
-    }
+    // if (!token) {
+    //   console.log('로그인 정보 없음');
+    //   router.replace('/hellosplash');
+    //   return;
+    // }
     // 유저가 로그인했지만 role을 설정하지 않은 경우 설정 화면으로 안내
     if (!mockUser.hasRole) {
       console.log('역할 없음');

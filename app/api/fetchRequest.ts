@@ -30,6 +30,7 @@ export const fetchRequest = async <T = any>({
         const options: RequestInit = {
             method,
             headers,
+            credentials: 'include',
         };
 
         if (['POST', 'PUT', 'PATCH'].includes(method) && body) {
