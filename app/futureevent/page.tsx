@@ -14,8 +14,12 @@ export default function FutureEvent() {
 			flexDirection: 'column',
 			alignItems: 'center',
 			justifyContent: 'space-between',
-			backgroundColor: '#F4F2E0',
-			padding: '4rem 0 6rem 0'
+			// backgroundColor: '#F4F2E0',
+			backgroundImage: `url(/img/letter_back_img.svg)`,
+			backgroundSize: 'cover',
+			backgroundRepeat: 'no-repeat',
+			backgroundPosition: 'center',
+			padding: '3rem 0 6rem 0'
 		}}>
 			<Box sx={{ width: '90%', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: '0.5rem', flexDirection: 'column' }}>
 				<Box sx={{ width: '100%', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: '0.5rem', flexDirection: 'column' }}>
@@ -26,13 +30,13 @@ export default function FutureEvent() {
 				<TextField
 					variant="outlined"
 					multiline
-					minRows={10}
+					minRows={19}
 					sx={{ width: '100%' }}
 					label='ex) 우리 딸 시험 파이팅!!'
 				/>
 				<Button sx={{
 					width: '20%', backgroundColor: '#DBD9CA', display: 'flex', alignItems: 'center', justifyContent: 'center',
-					color: 'white', padding: '0.5rem', borderRadius: '1rem'
+					color: '#6E4C36', padding: '0.5rem', borderRadius: '1rem'
 				}}>이미지 추가</Button>
 			</Box>
 

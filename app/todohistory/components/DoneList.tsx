@@ -55,7 +55,7 @@ export default function DoneList({ todoData }: TodoProps) {
 						{/* <Typography sx={{ color: 'white', fontSize: '1rem', fontWeight: 'bold' }}>DONE</Typography> */}
 						<Box sx={{
 							width: '5rem',
-							height: '1rem',
+							height: '2rem',
 							backgroundImage: `url(/img/icon_done.svg)`,
 							backgroundSize: 'cover',
 							backgroundRepeat: 'no-repeat',
