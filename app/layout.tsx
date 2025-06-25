@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import LayoutClient from './layout-client';
-import Head from 'next/head';
+import { Suspense } from 'react';
+import Loading from './components/Loading';
 
 export const metadata = {
 	title: '모멘토',
@@ -15,15 +16,11 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
 	return (
 		<html lang="ko">
-			{/* <Head>
-				<link
-					href="https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.eot?#iefix"
-					rel="stylesheet"
-				/>
-			</Head> */}
 			<body>
-				<LayoutClient>{children}</LayoutClient>
-				<div id="modal-root" />
+				<Suspense fallback={<Loading />}>
+					<LayoutClient>{children}</LayoutClient>
+					<div id="modal-root" />
+				</Suspense>
 			</body>
 		</html>
 	);

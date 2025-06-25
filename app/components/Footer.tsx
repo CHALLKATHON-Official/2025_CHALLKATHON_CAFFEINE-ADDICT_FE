@@ -3,6 +3,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import Loading from './Loading';
 
 export default function Footer() {
 	const router = useRouter();
