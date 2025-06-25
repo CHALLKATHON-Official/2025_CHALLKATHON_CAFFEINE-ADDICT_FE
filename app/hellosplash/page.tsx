@@ -1,6 +1,7 @@
 'use client';
 import { Box, Button, Typography } from '@mui/material';
 import { useEffect } from 'react';
+import { serverCall } from '../api/serverCall';
 
 export default function HelloSplash() {
 	const apiBaseUrl = process.env.NEXT_PUBLIC_SERVER_URI;
@@ -12,11 +13,21 @@ export default function HelloSplash() {
 
 		if (token) {
 			localStorage.setItem('accessToken', token);
-		}
+		};
+		fetchUserData();
+
 	}, []);
 
 	const handleKakaoLogin = () => {
 		window.location.href = kakaoLoginUrl;
+	};
+
+	//-------
+
+	const fetchUserData = async () => {
+		console.log('fetchUserData 함수 요청 성공!');
+		const userData = await serverCall('GET', '/api/v1/auth/me', "", '유저 정보 GET 실패', '유저 정보 GET 성공');
+		console.log('유저 정보 GET 결과:', userData);
 	};
 
 	return (
@@ -35,9 +46,15 @@ export default function HelloSplash() {
 		}}>
 			<Button
 				onClick={handleKakaoLogin}
-				sx={{ width: '80%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'yellow' }}>
-				<Typography sx={{ color: 'black' }}>카카오 로그인</Typography>
-			</Button>
+				sx={{
+					width: '50%', height: '3rem', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'yellow',
+					backgroundImage: `url(/img/button_kakao.png)`,
+					backgroundSize: 'cover',
+					backgroundRepeat: 'no-repeat',
+					backgroundPosition: 'center',
+					borderRadius: '0.5rem'
+				}} />
+			{/* <Typography sx={{ color: 'black' }}>카카오 로그인</Typography> */}
 		</Box>
 	);
 }
