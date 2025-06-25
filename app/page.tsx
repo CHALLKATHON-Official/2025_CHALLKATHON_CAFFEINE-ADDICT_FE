@@ -1,4 +1,6 @@
 'use client';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Box, Typography } from '@mui/material';
 import Story from './home_components/Story';
 import ProgressBar from './home_components/Progress';
@@ -11,7 +13,16 @@ import InviteCode from './home_components/before_included_components/InviteCode'
 
 // 모멘토 홈화면
 export default function Home() {
+  const router = useRouter();
   const noFamily = false;
+
+  // 접속한 사용자가 로그인 정보가 없다면, 최초 로그인 페이지로 리다이렉션 한다 
+  useEffect(() => {
+    const data = localStorage.getItem('nickname');
+    if (!data) {
+      router.replace('/hellosplash');
+    }
+  }, [router]);
 
   return (
     <Box sx={{

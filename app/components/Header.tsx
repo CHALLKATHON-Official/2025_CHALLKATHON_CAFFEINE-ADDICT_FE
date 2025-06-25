@@ -1,16 +1,10 @@
 'use client';
 
 import { Box, Button, Typography } from '@mui/material';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
 	const router = useRouter();
-	const pathname = usePathname();
-
-	const hideOnRoutes = ['/login', '/signup', '/story'];
-	const shouldHide = hideOnRoutes.includes(pathname);
-
-	if (shouldHide) return null;
 
 	return (
 		<Box sx={{
