@@ -3,17 +3,51 @@ import { Box, Typography, Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import Splash_after_makeTodo from './Splash_after_makeTodo';
 import Splash_before_makeTodo from './Splash_before_makeTodo';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { serverCall } from '../api/serverCall';
 
-// 홈화면 하단 데일리 질문 컴포넌트
 export default function DailyQuestion() {
 	const router = useRouter();
-	const question = '나의 엄마는 어떤 사람이었나요?';
+
+	const [question, setQuestion] = useState<string>('로딩 중...');
 	const [beforeOpen, setBeforeOpen] = useState(false);
 	const [afterOpen, setAfterOpen] = useState(false);
 
-	const handleChangeQuestion = () => {
+	useEffect(() => {
+		const fetchRecentQuestion = async () => {
+			try {
+				const res = await serverCall(
+					'GET',
+					'/api/v1/family/questions/recent'
+				);
+				const latest = res?.result?.content;
+				if (latest) setQuestion(latest);
+				else setQuestion('오늘의 질문이 아직 없습니다.');
+			} catch (error) {
+				console.error('최신 질문 불러오기 실패:', error);
+				setQuestion('질문을 불러오지 못했습니다.');
+			}
+		};
+
+		fetchRecentQuestion();
+	}, []);
+
+	const handleChangeQuestion = async () => {
 		setBeforeOpen(true);
+
+		try {
+			const res = await serverCall(
+				'POST',
+				'/api/v1/questions/generate'
+			);
+			const newQuestion = res?.result.content;
+			if (newQuestion) {
+				setQuestion(newQuestion);
+			}
+		} catch (error) {
+			console.error('질문 생성 실패:', error);
+		}
+
 		setTimeout(() => {
 			setBeforeOpen(false);
 			setAfterOpen(true);

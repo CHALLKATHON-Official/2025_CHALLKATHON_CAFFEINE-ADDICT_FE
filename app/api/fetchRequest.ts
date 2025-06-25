@@ -20,9 +20,10 @@ export const fetchRequest = async <T = any>({
         const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
         console.log('디버깅용 token 출력:', token);
 
-        const headers: HeadersInit = {
-            'Content-Type': 'application/json',
-        };
+        const headers: HeadersInit = {};
+        if (!(body instanceof FormData)) {
+            headers['Content-Type'] = 'application/json';
+        }
         if (token) {
             headers['Authorization'] = `Bearer ${token}`;
         }
@@ -34,7 +35,7 @@ export const fetchRequest = async <T = any>({
         };
 
         if (['POST', 'PUT', 'PATCH'].includes(method) && body) {
-            options.body = JSON.stringify(body);
+            options.body = body instanceof FormData ? body : JSON.stringify(body);
         }
 
         const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}${endpoint}`, options);
@@ -47,12 +48,8 @@ export const fetchRequest = async <T = any>({
             } catch (e) {
                 errorData = null;
             }
-
-            // if (errorMessage) alert(errorMessage);
             throw new Error(errorData?.message || errorMessage || 'API 요청 실패');
         }
-
-        // if (successMessage) alert(successMessage);
 
         const data: T = await response.json();
         console.log('여기는 fetchRequest, data는:', data);

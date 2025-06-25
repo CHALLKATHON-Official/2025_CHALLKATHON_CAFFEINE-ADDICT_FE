@@ -109,7 +109,7 @@ export default function Home() {
       )}
 
       {/* 디버깅용 로그인 버튼 */}
-      <Button onClick={handleKakaoLogin}>로그인</Button>
+      {/* <Button onClick={handleKakaoLogin}>로그인</Button> */}
     </Box>
   );
 }
