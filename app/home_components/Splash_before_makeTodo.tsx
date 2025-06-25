@@ -1,19 +1,32 @@
 'use client';
-import { Box, Typography } from '@mui/material';
 
-export default function Splash_before_makeTodo() {
+import { Box, Button, Typography } from '@mui/material';
+import CustomModal from '@/app/components/CustomModal';
+import { Dispatch, SetStateAction } from 'react';
+import { useRouter } from 'next/navigation';
+
+interface TodoModalProps {
+	open: boolean;
+	setOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function Splash_before_makeTodo({ open, setOpen }: TodoModalProps) {
+	if (!open) { return null; }
+
+	const router = useRouter();
+	const closeModal = () => {
+		setOpen(false);
+	};
+	const goBook = () => {
+		router.push('/futureevent');
+	}
 
 	return (
-		<Box sx={{
-			width: '100%',
-			display: 'flex',
-			flexDirection: 'column',
-			alignItems: 'center',
-			justifyContent: 'center',
-			backgroundColor: '#F6F4E0'
-		}}>
-			<Typography>여기는 투두리스트 만드는 스플래쉬</Typography>
-			<Typography>투두리스트를 새로 생성 중...</Typography>
-		</Box>
+		<CustomModal onClose={closeModal} backgroundImage='/img/modal_makeTodo_before_img.svg'
+			height='30rem' flexDirection='column'>
+			<Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+				<Typography sx={{ color: 'white' }}>AI가 새로운 데이터를 만들고 있어요...</Typography>
+			</Box>
+		</CustomModal>
 	);
 }
