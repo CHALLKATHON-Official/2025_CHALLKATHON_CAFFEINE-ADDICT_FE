@@ -4,14 +4,7 @@ import Profile from './components/profile';
 import MyFamily from './components/myFamily';
 import OurCode from './components/ourCode';
 
-// mockData
-const myInfo = {
-	userName: '봉미선',
-	roll: '딸',
-	profileImg: '/img/small_icon_daghter.svg',
-	familyMember: ['mom', 'dad', 'son'],
-	inviteCode: 112233
-}
+// profile, family, code 조회에 필요한 API를 모두 호출하고 각 결과를 컴포넌트들에게 props로 넘겨줘야 한다.
 
 export default function My() {
 

@@ -83,7 +83,7 @@ export default function Profile({ myInfo }: ProfileProps) {
 					justifyContent: 'flex-start',
 					gap: '1rem'
 				}}>
-					<Typography sx={{ fontSize: '1.2rem' }}>{myInfo.userName}</Typography>
+					<Typography sx={{ fontSize: '1.2rem', color: '#6E4C36' }}>{myInfo.userName}</Typography>
 					<Button sx={{
 						width: '3rem', padding: '0.2rem', backgroundColor: '#FCCB52', display: 'flex',
 						alignItems: 'center', justifyContent: 'center', borderRadius: '1rem', color: 'black'

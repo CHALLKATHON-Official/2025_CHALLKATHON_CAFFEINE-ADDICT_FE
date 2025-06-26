@@ -45,7 +45,7 @@ export default function TodoHistory() {
 		}}>
 			<Box sx={{ width: '90%', display: 'flex', flexDirection: 'column', gap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
 				<Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', gap: '0.5rem', justifyContent: 'flex-start' }}>
-					<Typography>아직 안 한 우리 가족의 TODO-list</Typography>
+					<Typography sx={{ color: '#6E4C36' }}>아직 안 한 우리 가족의 TODO-list</Typography>
 					<Box
 						sx={{
 							width: '20px',
@@ -64,7 +64,7 @@ export default function TodoHistory() {
 
 			<Box sx={{ width: '90%', display: 'flex', flexDirection: 'column', gap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
 				<Box sx={{ width: '90%', display: 'flex', flexDirection: 'row', gap: '0.5rem', justifyContent: 'flex-start' }}>
-					<Typography>우리 가족이 정복한 TODO-list</Typography>
+					<Typography sx={{ color: '#6E4C36' }}>우리 가족이 정복한 TODO-list</Typography>
 					<Box
 						sx={{
 							width: '20px',
