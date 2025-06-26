@@ -1,35 +1,20 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Box, Button, Typography, Snackbar } from '@mui/material';
-import { serverCall } from '@/app/api/serverCall';
 
-export default function OurCode() {
-	const [inviteCode, setInviteCode] = useState<string | null>(null);
+interface OurCodeProps {
+	code: {
+		code: string;
+	};
+}
+
+export default function OurCode({ code }: OurCodeProps) {
 	const [open, setOpen] = useState(false);
-
-	useEffect(() => {
-		const fetchInviteCode = async () => {
-			try {
-				const res = await serverCall(
-					'GET',
-					'/api/v1/family/code',
-					'',
-					'초대 코드 조회 실패',
-					'초대 코드 조회 성공'
-				);
-				setInviteCode(res.result.code);
-			} catch (err) {
-				console.error('초대코드 불러오기 실패:', err);
-			}
-		};
-
-		fetchInviteCode();
-	}, []);
 
 	const handleCopy = async () => {
 		try {
-			if (inviteCode) {
-				await navigator.clipboard.writeText(inviteCode);
+			if (code?.code) {
+				await navigator.clipboard.writeText(code.code);
 				setOpen(true);
 			}
 		} catch (err) {
@@ -75,11 +60,10 @@ export default function OurCode() {
 							fontWeight: 'bold',
 						}}
 					>
-						{inviteCode ?? '로딩 중...'}
+						{code.code}
 					</Box>
 					<Button
 						onClick={handleCopy}
-						disabled={!inviteCode}
 						sx={{
 							width: '30%',
 							display: 'flex',

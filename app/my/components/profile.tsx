@@ -1,20 +1,61 @@
 'use client';
+import { useRef, useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import CreateIcon from '@mui/icons-material/Create';
+import { serverCall } from '@/app/api/serverCall';
 
 interface myInfoType {
-	userName: string,
-	roll: string,
-	profileImg: string,
-	// familyMember: string[],
-	// inviteCode: number
+	userId: number;
+	userName: string;
+	userEmail: string;
+	role: 'MOM' | 'DAD' | 'SON' | 'DAUGHTER';
+	profileImg: string | null;
 }
 
 interface ProfileProps {
-	myInfo: myInfoType;
+	profile: myInfoType;
 }
 
-export default function Profile({ myInfo }: ProfileProps) {
+const rollTextMap: Record<string, string> = {
+	MOM: '엄마',
+	DAD: '아빠',
+	SON: '아들',
+	DAUGHTER: '딸',
+};
+
+const rollImgMap: Record<string, string> = {
+	MOM: '/img/small_icon_mom.svg',
+	DAD: '/img/small_icon_dad.svg',
+	SON: '/img/small_icon_son.svg',
+	DAUGHTER: '/img/small_icon_daghter.svg',
+};
+
+export default function Profile({ profile }: ProfileProps) {
+	const [currentImage, setCurrentImage] = useState(profile.profileImg);
+	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	const handleImageClick = () => {
+		fileInputRef.current?.click();
+	};
+
+	const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (!file) return;
+
+		const reader = new FileReader();
+		reader.onloadend = async () => {
+			const base64 = reader.result as string;
+
+			try {
+				await serverCall('PATCH', '/api/v1/users/me/image', { image: base64 });
+				setCurrentImage(base64); // 이미지 업로드 성공 시 즉시 UI 반영
+			} catch (error) {
+				console.error('프로필 이미지 업데이트 실패:', error);
+			}
+		};
+
+		reader.readAsDataURL(file);
+	};
 
 	return (
 		<Box sx={{
@@ -29,21 +70,34 @@ export default function Profile({ myInfo }: ProfileProps) {
 			borderBottom: '1px solid #6E4C36',
 			borderTop: '1px solid #6E4C36',
 		}}>
-			<Box sx={{
-				width: '7rem',
-				height: '7rem',
-				borderRadius: '50%',
-				backgroundColor: '#DBD9CA',
-				padding: '10%',
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				backgroundImage: `url(${myInfo.profileImg})`,
-				backgroundSize: 'cover',
-				backgroundRepeat: 'no-repeat',
-				backgroundPosition: 'center',
-				position: 'relative'
-			}}>
+			<Box
+				sx={{
+					width: '7rem',
+					height: '7rem',
+					borderRadius: '50%',
+					backgroundColor: '#DBD9CA',
+					padding: '10%',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					backgroundImage: currentImage
+						? `url(${currentImage})`
+						: `url(${rollImgMap[profile.role]})`,
+					backgroundSize: 'cover',
+					backgroundRepeat: 'no-repeat',
+					backgroundPosition: 'center',
+					position: 'relative',
+					cursor: 'pointer'
+				}}
+				onClick={handleImageClick}
+			>
+				<input
+					type="file"
+					accept="image/*"
+					style={{ display: 'none' }}
+					ref={fileInputRef}
+					onChange={handleFileChange}
+				/>
 				<Box
 					sx={{
 						position: 'absolute',
@@ -83,11 +137,11 @@ export default function Profile({ myInfo }: ProfileProps) {
 					justifyContent: 'flex-start',
 					gap: '1rem'
 				}}>
-					<Typography sx={{ fontSize: '1.2rem', color: '#6E4C36' }}>{myInfo.userName}</Typography>
+					<Typography sx={{ fontSize: '1.2rem', color: '#6E4C36' }}>{profile.userName}</Typography>
 					<Button sx={{
 						width: '3rem', padding: '0.2rem', backgroundColor: '#FCCB52', display: 'flex',
 						alignItems: 'center', justifyContent: 'center', borderRadius: '1rem', color: 'black'
-					}}>{myInfo.roll}</Button>
+					}}>{rollTextMap[profile.role]}</Button>
 				</Box>
 
 				<Box sx={{

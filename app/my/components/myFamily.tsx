@@ -1,51 +1,32 @@
 'use client';
-import { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import { serverCall } from '@/app/api/serverCall';
 
 interface Member {
 	userId: number;
 	name: string;
-	familyRole: 'mom' | 'dad' | 'son' | 'daughter';
+	familyRole: string;
 	profileImageUrl: string | null;
 }
 
+interface MyFamilyProps {
+	family: Member[];
+}
+
 const rollTextMap: Record<string, string> = {
-	mom: '엄마',
-	dad: '아빠',
-	son: '아들',
-	daughter: '딸',
+	MOM: '엄마',
+	DAD: '아빠',
+	SON: '아들',
+	DAUGHTER: '딸',
 };
 
 const rollImgMap: Record<string, string> = {
-	mom: '/img/small_icon_mom.svg',
-	dad: '/img/small_icon_dad.svg',
-	son: '/img/small_icon_son.svg',
-	daughter: '/img/small_icon_daghter.svg',
+	MOM: '/img/small_icon_mom.svg',
+	DAD: '/img/small_icon_dad.svg',
+	SON: '/img/small_icon_son.svg',
+	DAUGHTER: '/img/small_icon_daghter.svg',
 };
 
-export default function MyFamily() {
-	const [members, setMembers] = useState<Member[]>([]);
-
-	useEffect(() => {
-		const fetchFamilyMembers = async () => {
-			try {
-				const res = await serverCall(
-					'GET',
-					'/api/v1/family/members',
-					'',
-					'가족 구성원 조회 실패',
-					'가족 구성원 조회 성공'
-				);
-				setMembers(res.result);
-			} catch (error) {
-				console.error('가족 정보 불러오기 실패:', error);
-			}
-		};
-
-		fetchFamilyMembers();
-	}, []);
-
+export default function MyFamily({ family }: MyFamilyProps) {
 	return (
 		<Box
 			sx={{
@@ -70,9 +51,9 @@ export default function MyFamily() {
 					justifyContent: 'flex-start',
 				}}
 			>
-				{members.map((member, idx) => (
+				{family.map((member) => (
 					<Box
-						key={idx}
+						key={member.userId}
 						sx={{
 							display: 'flex',
 							flexDirection: 'column',
@@ -90,8 +71,7 @@ export default function MyFamily() {
 								display: 'flex',
 								alignItems: 'center',
 								justifyContent: 'center',
-								backgroundImage: `url(${member.profileImageUrl ?? rollImgMap[member.familyRole]
-									})`,
+								backgroundImage: `url(${member.profileImageUrl ?? rollImgMap[member.familyRole]})`,
 								backgroundSize: 'cover',
 								backgroundRepeat: 'no-repeat',
 								backgroundPosition: 'center',
@@ -100,7 +80,7 @@ export default function MyFamily() {
 						<Typography
 							sx={{ marginTop: '0.5rem', color: '#6E4C36', fontSize: '0.8rem' }}
 						>
-							{rollTextMap[member.familyRole]}
+							{rollTextMap[member.familyRole]}, {member.name}
 						</Typography>
 					</Box>
 				))}
