@@ -3,8 +3,8 @@ import { Box, Typography, Button, Checkbox } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
 interface TodoType {
-	month: number,
-	todolist: string[];
+	month: number;
+	todolist: [string, boolean][];
 }
 
 interface TodoProps {

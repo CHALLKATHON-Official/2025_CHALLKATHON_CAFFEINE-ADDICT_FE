@@ -16,12 +16,14 @@ export default function TodoHistory() {
 					method: 'GET',
 					endpoint: '/api/v1/families/my/todo-lists?status=completed',
 				});
+				console.log('컴플리트 결과:', done);
 				setDoneTodos(done.result || []);
 
 				const pending = await fetchRequest({
 					method: 'GET',
 					endpoint: '/api/v1/families/my/todo-lists?status=pending',
 				});
+				console.log('펜딩 결과:', pending);
 				setPendingTodos(pending.result || []);
 			} catch (error) {
 				console.error('투두 불러오기 실패:', error);
@@ -57,13 +59,13 @@ export default function TodoHistory() {
 						}}
 					/>
 				</Box>
-				{/* <NotDoneList
-				todoData={pendingTodos}
-				 /> */}
+				<NotDoneList
+					todoData={pendingTodos}
+				/>
 			</Box>
 
 			<Box sx={{ width: '90%', display: 'flex', flexDirection: 'column', gap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
-				<Box sx={{ width: '90%', display: 'flex', flexDirection: 'row', gap: '0.5rem', justifyContent: 'flex-start' }}>
+				<Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', gap: '0.5rem', justifyContent: 'flex-start' }}>
 					<Typography sx={{ color: '#6E4C36' }}>우리 가족이 정복한 TODO-list</Typography>
 					<Box
 						sx={{
