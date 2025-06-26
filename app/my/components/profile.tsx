@@ -8,7 +8,7 @@ interface myInfoType {
 	userId: number;
 	userName: string;
 	userEmail: string;
-	role: 'MOM' | 'DAD' | 'SON' | 'DAUGHTER';
+	role: string;
 	profileImg: string | null;
 }
 
