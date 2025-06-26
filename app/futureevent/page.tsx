@@ -24,25 +24,40 @@ export default function FutureEvent() {
 
 		setOpen(true);
 
-		try {
-			const formData = new FormData();
-			formData.append('content', content);
-			formData.append('reservedDate', reservedDate);
-			formData.append('image', imageFile);
+		const formData = new FormData();
+		formData.append('content', content);
+		formData.append('reservedDate', reservedDate);
+		formData.append('image', imageFile);
 
-			await fetch('/api/v1/messages', {
+		// 디버깅용 확인
+		for (const pair of formData.entries()) {
+			console.log(`${pair[0]}:`, pair[1]);
+		}
+
+		try {
+			const apiBaseUrl = process.env.NEXT_PUBLIC_SERVER_URI;
+			const response = await fetch(`${apiBaseUrl}/api/v1/messages`, {
 				method: 'POST',
 				body: formData,
+				// Content-Type 절대 지정 X → 브라우저가 multipart/form-data 자동 처리
 			});
 
-			setOpen(false);
+			if (!response.ok) {
+				const errorText = await response.text();
+				console.error('요청 실패:', errorText);
+				throw new Error(`HTTP ${response.status}`);
+			}
+
 			alert('성공적으로 발송되었습니다!');
 			router.push('/explore');
 		} catch (error) {
 			console.error('메시지 등록 실패:', error);
+			alert('에러가 발생했습니다. 콘솔을 확인하세요.');
+		} finally {
 			setOpen(false);
 		}
 	};
+
 
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];

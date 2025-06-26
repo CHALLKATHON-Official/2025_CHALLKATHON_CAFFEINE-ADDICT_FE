@@ -43,22 +43,35 @@ export default function AddStory() {
 	};
 
 	const handleConfirm = async () => {
-		if (!imageBase64) return;
+		if (!fileInputRef.current?.files?.[0]) return;
+
+		const file = fileInputRef.current.files[0];
+		const formData = new FormData();
+		formData.append('image', file);
 
 		try {
-			await serverCall(
-				'POST',
-				'/api/v1/stories',
-				{ image: imageBase64 },
-				'스토리 업로드 실패',
-				'스토리 업로드 성공'
-			);
+			const apiBaseUrl = process.env.NEXT_PUBLIC_SERVER_URI;
+			const response = await fetch(`${apiBaseUrl}/api/v1/stories`, {
+				method: 'POST',
+				body: formData,
+
+			});
+
+			if (!response.ok) {
+				const errorText = await response.text();
+				console.error('스토리 업로드 실패:', errorText);
+				alert('스토리 업로드에 실패했습니다.');
+				return;
+			}
+
 			setSnackOpen(true);
 			setTimeout(() => router.back(), 1500);
 		} catch (err) {
-			alert('스토리 업로드에 실패했습니다.');
+			console.error('에러 발생:', err);
+			alert('스토리 업로드 중 오류가 발생했습니다.');
 		}
 	};
+
 
 	return (
 		<Box

@@ -1,10 +1,34 @@
 'use client';
 import { Box, Button, Typography } from '@mui/material';
-import { questionPast } from '../mockData/question_past';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { serverCall } from '@/app/api/serverCall';
+
+interface Question {
+	index: number;
+	content: string;
+	allFamilyAnswered: boolean;
+}
 
 export default function DailyQuestion() {
 	const router = useRouter();
+	const [questions, setQuestions] = useState<Question[]>([]);
+
+	useEffect(() => {
+		const fetchQuestions = async () => {
+			try {
+				const res = await serverCall('GET', '/api/v1/family/questions');
+				const fetched = res?.result?.questions;
+				if (Array.isArray(fetched)) {
+					setQuestions(fetched);
+				}
+			} catch (err) {
+				console.error('질문 목록 불러오기 실패:', err);
+			}
+		};
+
+		fetchQuestions();
+	}, []);
 
 	return (
 		<Box sx={{
@@ -31,14 +55,12 @@ export default function DailyQuestion() {
 			</Box>
 
 			<Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-				{questionPast.map((question, idx) => (
+				{questions.map((question) => (
 					<Button
-						key={idx}
-						// onClick={() => router.push(`/questiondetail/${question.index}`)}
-						onClick={() => router.push(`/questiondetail`)}
+						key={question.index}
+						onClick={() => router.push(`/questiondetail?id=${question.index}`)}
 						sx={{
 							width: '90%',
-							// marginTop: '1rem',
 							display: 'flex',
 							alignItems: 'center',
 							justifyContent: 'flex-start',
@@ -48,10 +70,9 @@ export default function DailyQuestion() {
 					>
 						<Typography
 							sx={{
-								color: question.isAllDone ? '#FF0000' : '#D9D9D9',
-								fontSize: '1rem',
+								color: question.allFamilyAnswered ? '#FF0000' : '#D9D9D9',
+								fontSize: '0.8rem',
 								marginRight: '1rem',
-								minWidth: '2rem'
 							}}
 						>
 							{question.index}
@@ -67,7 +88,7 @@ export default function DailyQuestion() {
 								padding: '0.2rem 1rem'
 							}}
 						>
-							<Typography sx={{ color: 'black', fontSize: '1rem' }}>
+							<Typography sx={{ color: 'black', fontSize: '0.8rem' }}>
 								{question.content}
 							</Typography>
 						</Box>
