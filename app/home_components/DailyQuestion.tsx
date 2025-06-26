@@ -12,6 +12,7 @@ export default function DailyQuestion() {
 	const [question, setQuestion] = useState<string>('로딩 중...');
 	const [beforeOpen, setBeforeOpen] = useState(false);
 	const [afterOpen, setAfterOpen] = useState(false);
+	const [flag, setFlag] = useState(false);
 
 	useEffect(() => {
 		const fetchRecentQuestion = async () => {
@@ -46,6 +47,10 @@ export default function DailyQuestion() {
 			}
 		} catch (error) {
 			console.error('질문 생성 실패:', error);
+			setBeforeOpen(false);
+			setFlag(true);
+			alert('질문 생성은 하루에 최대 5개 까지만 가능합니다.');
+			return; // 여기서 종료!
 		}
 
 		setTimeout(() => {
